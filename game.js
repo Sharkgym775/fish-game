@@ -441,7 +441,9 @@ function kelpMaterial() {
     #else
       vec3 ip = vec3(0.);
     #endif
-    float hh = position.y; transformed.x += sin(uT * 1.1 + ip.x * .3 + ip.z * .2 + hh * 2.6) * hh * hh * 1.8; transformed.z += cos(uT * .8 + ip.z * .25 + hh * 2.0) * hh * hh * 1.1;`); };
+    float hh = position.y; transformed.x += sin(uT * 1.1 + ip.x * .3 + ip.z * .2 + hh * 2.6) * hh * hh * 1.8; transformed.z += cos(uT * .8 + ip.z * .25 + hh * 2.0) * hh * hh * 1.1;`);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <clipping_planes_fragment>', `#include <clipping_planes_fragment>
+      float kd = length(vViewPosition); if (kd < 7.0 && fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) > (kd - 2.5) / 4.5) discard;`); };
   m.customProgramCacheKey = () => 'kelp'; return m;
 }
 function buildDecor() {
